@@ -1,0 +1,27 @@
+plugins {
+  id 'war'
+  id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_11
+  targetCompatibility = JavaVersion.VERSION_11
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation 'mysql:mysql-connector-java:8.0.33'
+  providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
+  implementation 'javax.servlet:jstl:1.2'
+  implementation 'javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.1'
+}
+
+war {
+  archiveFileName = 'iNotes.war'
+}
