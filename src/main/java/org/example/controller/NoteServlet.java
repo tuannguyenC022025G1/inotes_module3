@@ -42,9 +42,11 @@ public class NoteServlet extends HttpServlet {
             String keyword = request.getParameter("keyword");
             List<Note> notes = noteService.searchNotes(keyword != null ? keyword : "");
             request.setAttribute("notes", notes);
-            request.getRequestDispatcher("listNotes.jsp").forward(request, response);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         } else {
-            // Trang chủ mặc định
+            // Trang chủ với danh sách ghi chú mặc định
+            List<Note> notes = noteService.searchNotes("");
+            request.setAttribute("notes", notes);
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
@@ -58,18 +60,18 @@ public class NoteServlet extends HttpServlet {
             String content = request.getParameter("content");
             int typeId = Integer.parseInt(request.getParameter("typeId"));
             noteService.addNote(title, content, typeId);
-            response.sendRedirect(request.getContextPath() + "/notes?action=search");
+            response.sendRedirect(request.getContextPath() + "/notes");
         } else if ("edit".equals(action)) {
             int id = Integer.parseInt(request.getParameter("id"));
             String title = request.getParameter("title");
             String content = request.getParameter("content");
             int typeId = Integer.parseInt(request.getParameter("typeId"));
             noteService.updateNote(id, title, content, typeId);
-            response.sendRedirect(request.getContextPath() + "/notes?action=search");
+            response.sendRedirect(request.getContextPath() + "/notes");
         } else if ("delete".equals(action)) {
             int id = Integer.parseInt(request.getParameter("id"));
             noteService.removeNote(id);
-            response.sendRedirect(request.getContextPath() + "/notes?action=search");
+            response.sendRedirect(request.getContextPath() + "/notes");
         }
     }
 }

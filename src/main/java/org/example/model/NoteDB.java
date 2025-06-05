@@ -3,20 +3,23 @@ package org.example.model;
 import org.example.service.DatabaseConnection;
 
 import java.sql.*;
+import java.sql.Timestamp;
 
 public class NoteDB implements Note {
     private int id;
     private String title;
     private String content;
     private int typeId;
+    private Timestamp createdAt;
 
     public NoteDB() {}
 
-    public NoteDB(int id, String title, String content, int typeId) {
+    public NoteDB(int id, String title, String content, int typeId, Timestamp createdAt) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.typeId = typeId;
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -90,7 +93,7 @@ public class NoteDB implements Note {
             stmt.setInt(3, typeId);
             stmt.setInt(4, id);
             int rows = stmt.executeUpdate();
-            this.id = id; // Cập nhật ID nếu thành công
+            this.id = id;
             return rows > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -115,5 +118,10 @@ public class NoteDB implements Note {
     @Override
     public int getId() {
         return id;
+    }
+
+    @Override
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 }

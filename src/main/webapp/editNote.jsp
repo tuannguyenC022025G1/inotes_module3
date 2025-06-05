@@ -3,17 +3,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sửa ghi chú</title>
+    <title>Sửa ghi chú - iNotes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body { background-color: #f8f9fa; }
-        .container { max-width: 600px; margin-top: 50px; }
-        .form-control { margin-bottom: 15px; }
+        .container { max-width: 600px; margin-top: 20px; }
+        .form-group { margin-bottom: 15px; }
     </style>
 </head>
 <body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="${pageContext.request.contextPath}/notes">iNotes</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+
 <div class="container">
-    <h2 class="text-center">Sửa ghi chú</h2>
+    <h2 class="mb-4 text-center">Sửa ghi chú</h2>
     <c:if test="${not empty note}">
         <form action="${pageContext.request.contextPath}/notes" method="post">
             <input type="hidden" name="action" value="edit">
@@ -33,8 +43,10 @@
                     <option value="2" ${note.type == 'Công ty' ? 'selected' : ''}>Công ty</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Lưu</button>
-            <a href="${pageContext.request.contextPath}/notes" class="btn btn-secondary">Hủy</a>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Lưu</button>
+                <a href="${pageContext.request.contextPath}/notes" class="btn btn-secondary">Hủy</a>
+            </div>
         </form>
     </c:if>
     <c:if test="${empty note}">
@@ -44,5 +56,8 @@
         </div>
     </c:if>
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

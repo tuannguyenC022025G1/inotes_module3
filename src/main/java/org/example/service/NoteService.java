@@ -11,7 +11,7 @@ public class NoteService {
     private Note note;
 
     public NoteService() {
-        note = new NoteDB(); // Luôn sử dụng CSDL
+        note = new NoteDB();
     }
 
     public List<Note> searchNotes(String keyword) {
@@ -19,16 +19,17 @@ public class NoteService {
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(
                      "SELECT n.*, nt.name FROM note n JOIN note_type nt ON n.type_id = nt.id " +
-                             "WHERE n.title LIKE ? OR n.content LIKE ?")) {
-            stmt.setString(1, "%" + keyword + "%");
-            stmt.setString(2, "%" + keyword + "%");
+                             "WHERE n.title LIKE ? OR n.content LIKE ? ORDER BY n.created_at DESC")) {
+            stmt.setString(1, "%" + (keyword != null ? keyword : "") + "%");
+            stmt.setString(2, "%" + (keyword != null ? keyword : "") + "%");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 NoteDB note = new NoteDB(
                         rs.getInt("id"),
                         rs.getString("title"),
                         rs.getString("content"),
-                        rs.getInt("type_id")
+                        rs.getInt("type_id"),
+                        rs.getTimestamp("created_at")
                 );
                 result.add(note);
             }
