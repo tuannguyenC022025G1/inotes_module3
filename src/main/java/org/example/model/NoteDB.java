@@ -56,7 +56,7 @@ public class NoteDB implements Note {
             if (rs.next()) {
                 return rs.getString("name");
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return null;
@@ -64,12 +64,14 @@ public class NoteDB implements Note {
 
     @Override
     public boolean save() {
-        String sql = "INSERT INTO note (title, content, type_id) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO note (title, content, type_id, created_at) VALUES (?, ?, ?, ?)\n";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, title);
             stmt.setString(2, content);
             stmt.setInt(3, typeId);
+            stmt.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+
             int rows = stmt.executeUpdate();
             if (rows > 0) {
                 ResultSet rs = stmt.getGeneratedKeys();
@@ -77,7 +79,7 @@ public class NoteDB implements Note {
                 return true;
             }
             return false;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             return false;
         }
@@ -95,7 +97,7 @@ public class NoteDB implements Note {
             int rows = stmt.executeUpdate();
             this.id = id;
             return rows > 0;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             return false;
         }
@@ -109,7 +111,7 @@ public class NoteDB implements Note {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             return stmt.executeUpdate() > 0;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             return false;
         }

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-//@WebServlet("/notes")
+@WebServlet("/notes")
 public class NoteServlet extends HttpServlet {
     private NoteService noteService;
 
@@ -23,6 +23,9 @@ public class NoteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Đảm bảo trả về đúng encoding tiếng Việt
+        response.setContentType("text/html;charset=UTF-8");
+
         String action = request.getParameter("action");
         if ("view".equals(action)) {
             int id = Integer.parseInt(request.getParameter("id"));
@@ -42,9 +45,8 @@ public class NoteServlet extends HttpServlet {
             String keyword = request.getParameter("keyword");
             List<Note> notes = noteService.searchNotes(keyword != null ? keyword : "");
             request.setAttribute("notes", notes);
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.getRequestDispatcher("listNote.jsp").forward(request, response);
         } else {
-            // Trang chủ với danh sách ghi chú mặc định
             List<Note> notes = noteService.searchNotes("");
             request.setAttribute("notes", notes);
             request.getRequestDispatcher("index.jsp").forward(request, response);
@@ -54,6 +56,10 @@ public class NoteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Cần thiết để xử lý dữ liệu tiếng Việt từ form
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+
         String action = request.getParameter("action");
         if ("add".equals(action)) {
             String title = request.getParameter("title");

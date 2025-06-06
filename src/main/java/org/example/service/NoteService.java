@@ -33,7 +33,7 @@ public class NoteService {
                 );
                 result.add(note);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return result;
