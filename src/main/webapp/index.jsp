@@ -58,7 +58,7 @@
     <form action="${pageContext.request.contextPath}/notes" method="get" class="d-flex">
       <input type="hidden" name="action" value="search">
       <input type="text" name="keyword" class="form-control me-2" placeholder="Tìm kiếm ghi chú..." value="${param.keyword}">
-      <%-- Chỉ hiển thị value nếu keyword không rỗng --%>
+
 <%--      <c:if test="${not empty param.keyword}">--%>
 <%--             value="${param.keyword}"--%>
 <%--      </c:if>>--%>
@@ -69,7 +69,7 @@
 
 <!-- Footer -->
 <div class="footer">
-  <p>© 2025 iNotes. Được thiết kế với ❤️.</p>
+  <p>© 2025 iNotes. Được thiết kế bởi dev NauT.</p>
 </div>
 
 <!-- Bootstrap JS -->
